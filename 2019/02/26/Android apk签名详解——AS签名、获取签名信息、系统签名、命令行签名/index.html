@@ -5,19 +5,28 @@
   
 
   
-  <title>抹香随笔</title>
+  <title>Android apk签名详解——AS签名、获取签名信息、系统签名、命令行签名 | 抹香随笔</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="抹香君的学习之路与修行之路。">
+  <meta name="description" content="Apk签名，每一个Android开发者都不陌生。它就是对我们的apk加了一个校验参数，防止apk被掉包。一开始做Android开发，就接触到了apk签名；后来在微信开放平台、高德地图等平台注册时，需要填写apk签名的md5值和sha256值；再后来做系统应用，接触到了系统签名；而后就想了解下apk的生成机制，学习了如何用命令行进行签名。很早时以为很简单的签名，真没想到也蕴含这么丰富的知识，就想整理">
 <meta name="keywords" content="随笔">
-<meta property="og:type" content="website">
-<meta property="og:title" content="抹香随笔">
-<meta property="og:url" content="https://moxiangessay.com/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android apk签名详解——AS签名、获取签名信息、系统签名、命令行签名">
+<meta property="og:url" content="https://moxiangessay.com/2019/02/26/Android apk签名详解——AS签名、获取签名信息、系统签名、命令行签名/index.html">
 <meta property="og:site_name" content="抹香随笔">
-<meta property="og:description" content="抹香君的学习之路与修行之路。">
+<meta property="og:description" content="Apk签名，每一个Android开发者都不陌生。它就是对我们的apk加了一个校验参数，防止apk被掉包。一开始做Android开发，就接触到了apk签名；后来在微信开放平台、高德地图等平台注册时，需要填写apk签名的md5值和sha256值；再后来做系统应用，接触到了系统签名；而后就想了解下apk的生成机制，学习了如何用命令行进行签名。很早时以为很简单的签名，真没想到也蕴含这么丰富的知识，就想整理">
 <meta property="og:locale" content="zh">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3364201-0dd20fcdb6fbed99.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3364201-9e0e88dbc737994f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3364201-0c34777b344b68ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3364201-83d5686cef0b8fbc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3364201-a656c8a10cd844c6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3364201-5c0bfc281f7d633b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3364201-62b48a3a85c2d063.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-02-27T15:11:28.763Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="抹香随笔">
-<meta name="twitter:description" content="抹香君的学习之路与修行之路。">
+<meta name="twitter:title" content="Android apk签名详解——AS签名、获取签名信息、系统签名、命令行签名">
+<meta name="twitter:description" content="Apk签名，每一个Android开发者都不陌生。它就是对我们的apk加了一个校验参数，防止apk被掉包。一开始做Android开发，就接触到了apk签名；后来在微信开放平台、高德地图等平台注册时，需要填写apk签名的md5值和sha256值；再后来做系统应用，接触到了系统签名；而后就想了解下apk的生成机制，学习了如何用命令行进行签名。很早时以为很简单的签名，真没想到也蕴含这么丰富的知识，就想整理">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/3364201-0dd20fcdb6fbed99.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternate" href="/atom.xml" title="抹香随笔" type="application/atom+xml">
   
@@ -68,46 +77,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-抹香君自传" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/02/26/抹香君自传/" class="article-date">
-  <time datetime="2019-02-26T15:24:52.591Z" itemprop="datePublished">2019-02-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/26/抹香君自传/">抹香君自传</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>抹香君不知何许人也，亦不详其姓氏，好墨香，因取其谐音为号焉。<br>为天地立心，为生民立命，为往圣立绝学，为万世开太平。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://moxiangessay.com/2019/02/26/抹香君自传/" data-id="cjsnc8lb60000kjfyf14jt8n7" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Android apk签名详解——AS签名、获取签名信息、系统签名、命令行签名" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Android apk签名详解——AS签名、获取签名信息、系统签名、命令行签名" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/02/26/Android apk签名详解——AS签名、获取签名信息、系统签名、命令行签名/" class="article-date">
   <time datetime="2019-02-26T15:24:52.591Z" itemprop="datePublished">2019-02-26</time>
@@ -120,8 +90,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/26/Android apk签名详解——AS签名、获取签名信息、系统签名、命令行签名/">Android apk签名详解——AS签名、获取签名信息、系统签名、命令行签名</a>
+    <h1 class="article-title" itemprop="name">
+      Android apk签名详解——AS签名、获取签名信息、系统签名、命令行签名
     </h1>
   
 
@@ -170,11 +140,23 @@
     </footer>
   </div>
   
-</article>
-
+    
+<nav id="article-nav">
+  
+    <a href="/2019/02/26/抹香君自传/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          抹香君自传
+        
+      </div>
+    </a>
+  
+  
+</nav>
 
   
-
+</article>
 
 </section>
         
